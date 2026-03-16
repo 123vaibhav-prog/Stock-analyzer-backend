@@ -1,18 +1,14 @@
-# Stage 1: Build the application
-FROM maven:3.8.4-openjdk-17 AS build
+# Stage 1: Build the application using a maintained Maven image
+FROM maven:3.8.4-eclipse-temurin-17 AS build
 WORKDIR /app
-# Copy the pom.xml and source code
 COPY pom.xml .
 COPY src ./src
-# Build the jar file (skipping tests to save time)
 RUN mvn clean package -DskipTests
 
-# Stage 2: Run the application
-FROM openjdk:17-jdk-slim
+# Stage 2: Run the application using the recommended replacement image
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
-# Copy the built jar from the first stage
+# Ensure this matches the jar name generated in your target folder
 COPY --from=build /app/target/*.jar app.jar
-# Expose the port (matches your application.properties)
 EXPOSE 8080
-# Run the jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
