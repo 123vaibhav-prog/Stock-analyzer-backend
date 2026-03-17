@@ -18,4 +18,11 @@ public class SecurityConfig {
             .headers(headers -> headers.frameOptions(frame -> frame.disable()));
         return http.build();
     }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return registry -> registry.addMapping("/**")
+                .allowedOrigins("https://stock-analyzer-frontend-gilt.vercel.app")
+                .allowedMethods("*");
+    }
 }
