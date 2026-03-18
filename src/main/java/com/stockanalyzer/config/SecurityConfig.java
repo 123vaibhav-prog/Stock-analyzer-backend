@@ -19,10 +19,5 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return registry -> registry.addMapping("/**")
-                .allowedOrigins("https://stock-analyzer-frontend-gilt.vercel.app")
-                .allowedMethods("*");
-    }
+   
 }
